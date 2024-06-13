@@ -1,65 +1,38 @@
-#include<iostream>
-using namespace std;
-int main(){
-	string plainText;
-	cout<<"Enter plain text"<<endl;
-	cin>>plainText;
-	string cipherText=plainText;
-	cout<<"Enter key"<<endl;
-	int key;
-	cin>>key;
-	int n=plainText.size();
-	key=key%26;
-	for(int i=0;i<n;i++){
-		if(plainText[i]>='a' && plainText[i]<='z')
+#include<stdio.h>
+#include<string.h>
+void caesor(char *text,int key)
+{
+	int i;
+	for(i=0;i<strlen(text);i++)
+	{
+		if(text[i]>='A' && text[i]<='Z')
 		{
-		
-			if(plainText[i]+key>122){
-				int c=0;
-				c=key+plainText[i]-'z';
-				cipherText[i]='a'+c-1;
-			}
-			else
-				cipherText[i]=((plainText[i])+key);
+			text[i]=((text[i]-'A'+key)%26)+'A';
 		}
-		else if(plainText[i]>='A' && plainText[i]<='Z'){
-			if(plainText[i]+key>'Z'){
-				int c=0;
-				c='Z'-plainText[i];
-				c=key-c;
-				cipherText[i]='A'+c-1;
-			}
-			else
-				cipherText[i]=((plainText[i])+key);
-		}
-	}
-	cout<<"CipherText : "<<cipherText;
-	
-	string cToPlain=cipherText;
-	
-	for(int i=0;i<n;i++){
-		if(cipherText[i]>='a' && cipherText[i]<='z')
+		else if(text[i]>='a' && text[i]<='z')
 		{
-		
-			if(cipherText[i]-key<97){
-				int c=0;
-				c='a'-cipherText[i]+key;
-				cToPlain[i]='z'-c+1;
-			}
-			else
-				cToPlain[i]=((cipherText[i])-key);
-		}
-		else if(cipherText[i]>='A' && cipherText[i]<='Z'){
-			if(cipherText[i]-key<65){
-				int c=0;
-				c='A'-cipherText[i];
-				c=key+c;
-				cToPlain[i]='Z'-c+1;
-			}
-			else
-				cToPlain[i]=((cipherText[i])-key);
-		}
+			text[i]=((text[i]-'a'+key)%26)+'a';
+		}	
 	}
-	cout<<endl<<"PlainText : "<<cToPlain;
-	return 0;
+	printf("encrypted text is:%s\n",text);
+	for(i = 0; i < strlen(text); i++) {
+        if(text[i] >= 'A' && text[i] <= 'Z') {
+            text[i] = ((text[i] - 'A' - key + 26) % 26) + 'A';
+        }
+        else if(text[i] >= 'a' && text[i] <= 'z') {
+            text[i] = ((text[i] - 'a' - key + 26) % 26) + 'a';
+        }
+    }
+    printf("the decrypted text is:%s\n",text);	
 }
+int main()
+{	
+	char text[100];
+	int key;
+	printf("enter the text\n");
+	fgets(text,sizeof(text),stdin);
+	printf("enter the key\n");
+	scanf("%d",&key);
+	caesor(text,key);
+}
+    
